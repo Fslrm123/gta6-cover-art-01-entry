@@ -1,93 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vice Cover Studio — GTA-style cover art maker</title>
-<link rel="stylesheet" href="./style.css">
+<meta name="description" content="Vice Cover Studio — paint original Vice City-style game key art in your browser and export a 1080x1080 cover. Fully offline.">
+<title>Vice Cover Studio — GTA-style Cover Art Maker</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<canvas id="backdrop" width="1080" height="1080" aria-hidden="true"></canvas>
-<main class="studio">
-  <aside class="panel">
-    <header class="brand">
-      <div class="brand-mark" aria-hidden="true">VC</div>
-      <div>
-        <h1>Vice Cover Studio</h1>
-        <p>Forge your own Vice City cover art</p>
-      </div>
-    </header>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">VC</div>
+    <div class="brand-text">
+      <h1>Vice Cover Studio</h1>
+      <p>GTA-style key art maker &middot; 1080&times;1080</p>
+    </div>
+  </div>
+  <div class="topbar-meta">
+    <span class="meta-chip">Offline</span>
+    <span class="meta-chip">Deterministic render</span>
+  </div>
+</header>
 
-    <div class="fields">
+<main class="workspace">
+  <section class="stage" aria-label="Cover preview">
+    <div class="stage-frame">
+      <canvas id="cover" width="1080" height="1080"></canvas>
+    </div>
+    <p class="stage-caption">Live preview &middot; exports at full 1080&times;1080 PNG</p>
+  </section>
+
+  <aside class="panel" aria-label="Cover controls">
+    <div class="group">
+      <h2 class="group-title">Text</h2>
       <label class="field">
-        <span>Title</span>
-        <input id="title" type="text" maxlength="18" value="GTA VI" autocomplete="off">
+        <span class="field-label">Title</span>
+        <input id="in-title" type="text" maxlength="24" value="VICE CITY" autocomplete="off">
       </label>
       <label class="field">
-        <span>Subtitle</span>
-        <input id="subtitle" type="text" maxlength="26" value="VICE CITY" autocomplete="off">
+        <span class="field-label">Subtitle</span>
+        <input id="in-subtitle" type="text" maxlength="32" value="GRAND THEFT AUTO" autocomplete="off">
       </label>
-      <label class="field field-wide">
-        <span>Tagline</span>
-        <input id="tagline" type="text" maxlength="44" value="Welcome back to Vice City" autocomplete="off">
+      <label class="field">
+        <span class="field-label">Tagline</span>
+        <input id="in-tagline" type="text" maxlength="48" value="Welcome back to the neon shore." autocomplete="off">
       </label>
     </div>
 
-    <div class="field">
-      <span>Theme</span>
-      <div class="swatches" id="themes" role="radiogroup" aria-label="Theme">
-        <button type="button" class="swatch is-on" data-theme="sunset" role="radio" aria-checked="true"><i class="dot dot-sunset"></i>Vice Sunset</button>
-        <button type="button" class="swatch" data-theme="neon" role="radio" aria-checked="false"><i class="dot dot-neon"></i>Neon Nights</button>
-        <button type="button" class="swatch" data-theme="golden" role="radio" aria-checked="false"><i class="dot dot-golden"></i>Golden Hour</button>
-        <button type="button" class="swatch" data-theme="midnight" role="radio" aria-checked="false"><i class="dot dot-midnight"></i>Midnight Vice</button>
+    <div class="group">
+      <h2 class="group-title">Theme</h2>
+      <div class="swatches" id="theme-row" role="radiogroup" aria-label="Theme">
+        <button type="button" class="swatch is-active" data-theme="sunset" role="radio" aria-checked="true">
+          <span class="swatch-chip chip-sunset"></span><span class="swatch-name">Vice Sunset</span>
+        </button>
+        <button type="button" class="swatch" data-theme="neon" role="radio" aria-checked="false">
+          <span class="swatch-chip chip-neon"></span><span class="swatch-name">Neon Nights</span>
+        </button>
+        <button type="button" class="swatch" data-theme="golden" role="radio" aria-checked="false">
+          <span class="swatch-chip chip-golden"></span><span class="swatch-name">Golden Hour</span>
+        </button>
+        <button type="button" class="swatch" data-theme="midnight" role="radio" aria-checked="false">
+          <span class="swatch-chip chip-midnight"></span><span class="swatch-name">Midnight Vice</span>
+        </button>
       </div>
     </div>
 
-    <div class="field">
-      <span>Layout</span>
-      <div class="segmented" id="layouts" role="radiogroup" aria-label="Layout">
-        <button type="button" class="seg is-on" data-layout="classic" role="radio" aria-checked="true">Classic</button>
+    <div class="group">
+      <h2 class="group-title">Layout</h2>
+      <div class="segmented" id="layout-row" role="radiogroup" aria-label="Layout">
+        <button type="button" class="seg is-active" data-layout="classic" role="radio" aria-checked="true">Classic</button>
         <button type="button" class="seg" data-layout="poster" role="radio" aria-checked="false">Poster</button>
         <button type="button" class="seg" data-layout="billboard" role="radio" aria-checked="false">Billboard</button>
       </div>
     </div>
 
-    <div class="field">
-      <span>Backdrop</span>
-      <div class="segmented" id="backdrops" role="radiogroup" aria-label="Backdrop">
-        <button type="button" class="seg is-on" data-backdrop="scene" role="radio" aria-checked="true">Painted</button>
-        <button type="button" class="seg" data-backdrop="boulevard" role="radio" aria-checked="false">Boulevard</button>
-        <button type="button" class="seg" data-backdrop="pier" role="radio" aria-checked="false">Pier</button>
+    <div class="group">
+      <h2 class="group-title">Backdrop</h2>
+      <div class="segmented" id="backdrop-row" role="radiogroup" aria-label="Backdrop">
+        <button type="button" class="seg is-active" data-backdrop="painted" role="radio" aria-checked="true">Painted scene</button>
+        <button type="button" class="seg" data-backdrop="boulevard" role="radio" aria-checked="false">Boulevard photo</button>
+        <button type="button" class="seg" data-backdrop="pier" role="radio" aria-checked="false">Pier photo</button>
       </div>
     </div>
 
-    <div class="row">
-      <label class="check">
-        <input id="stars" type="checkbox" checked>
-        <span>Wanted stars</span>
+    <div class="group">
+      <h2 class="group-title">Details</h2>
+      <label class="toggle-row">
+        <span class="toggle-text">Wanted stars</span>
+        <input id="in-stars" type="checkbox" checked>
+        <span class="switch" aria-hidden="true"></span>
       </label>
-      <label class="check">
-        <input id="badge" type="checkbox" checked>
-        <span>Rating badge</span>
+      <label class="toggle-row">
+        <span class="toggle-text">Rating badge</span>
+        <input id="in-badge" type="checkbox" checked>
+        <span class="switch" aria-hidden="true"></span>
+      </label>
+      <label class="field field-slider">
+        <span class="field-label">Film grain <output id="grain-out">35</output></span>
+        <input id="in-grain" type="range" min="0" max="100" step="1" value="35">
       </label>
     </div>
 
-    <label class="field">
-      <span>Film grain <output id="grain-out">35%</output></span>
-      <input id="grain" type="range" min="0" max="100" value="35">
-    </label>
-
-    <button id="export" class="export" type="button">Export PNG · 1080 × 1080</button>
-    <p id="status" class="status" role="status"></p>
+    <button id="btn-export" class="btn-export" type="button">Export PNG &middot; 1080&times;1080</button>
+    <p class="panel-note">Every setting paints the identical cover on every run — same seed, same art.</p>
   </aside>
-
-  <section class="stage">
-    <div class="frame">
-      <canvas id="cover" width="1080" height="1080" aria-label="Your cover art"></canvas>
-    </div>
-    <p class="stage-note">Live preview · every control repaints instantly · 100% offline, drawn in code</p>
-  </section>
 </main>
-<script type="module" src="./src/main.js"></script>
+
+<script type="module" src="src/main.js"></script>
 </body>
 </html>
