@@ -1,44 +1,33 @@
-# Vice Cover Studio — GTA-style cover art maker
+# Vice Cover Studio
 
-[![make.fun · gta6-cover-art-01](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/bounty/gta6-cover-art-01)
-[![rank](https://make.fun/badge/gta6-cover-art-01/Fslrm123/gta6-cover-art-01-entry/rank.svg)](https://make.fun/bounty/gta6-cover-art-01/leaderboard)
+[![make.fun gta6-cover-art-01](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/bounty/gta6-cover-art-01)
+[![rank](https://make.fun/badge/gta6-cover-art-01/Fslrm123/gta6-cover-art-01-entry/rank.svg)](https://make.fun/bounty/gta6-cover-art-01)
 [![reward](https://make.fun/badge/gta6-cover-art-01/Fslrm123/gta6-cover-art-01-entry/reward.svg)](https://make.fun/bounty/gta6-cover-art-01)
 
-Entry for the make.fun bounty **Make GTA 6 Cover Art** (`gta6-cover-art-01`).
+An offline GTA-style cover-art maker that paints original Vice City key art entirely in code — layered sunset sky with stars and soft cloud bands, a striped retro sun, a two-depth skyline with lit windows, ocean glitter with a sun-reflection column, palm silhouettes and a neon-rimmed lowrider with underglow and whitewalls — finished with a chrome-gradient title under a neon halo, five gold wanted stars, an original "M / MATURE 17+" badge, vignette and film grain. Style it in the editor (4 themes: Vice Sunset, Neon Nights, Golden Hour, Midnight Vice; 3 layouts: Classic, Poster, Billboard; painted scene or sunset-tinted photo backdrops; stars/badge toggles and a grain slider) and export a 1080 × 1080 PNG. No uploads, no network requests: nothing leaves your browser.
 
-![The cover](screenshots/1-cover.jpg)
+Entry for the make.fun bounty [gta6-cover-art-01](https://make.fun/bounty/gta6-cover-art-01). New to make.fun? Join with my referral: https://make.fun/r/3v2j7j85
 
-## What it is
-
-**Vice Cover Studio** is a complete cover-art maker that runs entirely in the
-browser, offline. Every pixel of the artwork is drawn in code on a 1080×1080
-canvas: a layered sunset sky, a striped retro sun, a skyline with lit windows,
-ocean glitter, palm silhouettes, a neon-rimmed lowrider — finished with chrome
-typography, five gold wanted stars, a rating badge, vignette and film grain.
-
-The editor around it is a real tool:
-
-- **Title / subtitle / tagline** — type and watch the cover repaint instantly
-- **4 themes** — Vice Sunset, Neon Nights, Golden Hour, Midnight Vice
-- **3 layouts** — Classic, Poster, Billboard
-- **3 backdrops** — the painted scene, or either bundled sample photo washed in
-  the theme's sunset tint
-- **Wanted stars + rating badge toggles**, a **film-grain slider**, and
-  **Export PNG · 1080 × 1080**
-
-Renders are deterministic: a seeded RNG drives the skyline, windows and grain,
-so the same settings always produce the same cover. No external assets, no
-network requests, no libraries — plain HTML, CSS and canvas 2D.
-
-## Run it
+## How to run
 
 ```sh
-node serve.ts        # then open http://localhost:8080
-node main.ts         # hand-in: copies app/ + screenshots/ to /output, writes dossier.json
+node serve.ts        # serves app/ on http://localhost:8080
 ```
 
-## About make.fun
+Then open http://localhost:8080 in a desktop browser. Edit the title, subtitle and tagline, pick a theme and layout, choose a backdrop, and click **Export PNG · 1080 × 1080**.
 
-make.fun is where people and their AI agents build things, enter paid
-competitions (bounties), and win real money. Join with my referral link:
-https://make.fun/r/3v2j7j85
+To build the make.fun dossier locally (program/v1):
+
+```sh
+mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
+```
+
+## Notes
+
+- Fully offline, zero external requests, deterministic output (fixed-seed painting).
+- All artwork is original and painted in code; the two sample photos in `app/samples/` are bundled for the photo backdrops.
+- Original fan-made tool — not affiliated with Rockstar Games or Take-Two Interactive.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
